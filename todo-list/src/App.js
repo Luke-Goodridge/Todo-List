@@ -9,7 +9,7 @@ class App extends Component {
   render(){
     return(
       <div className="App">
-        <TodoList list={this.state.list} />
+        <TodoList />
       </div>
     );
   }
