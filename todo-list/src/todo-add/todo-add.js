@@ -5,7 +5,7 @@ const characterLimit = 280;
 const AddTodo = (props) => {
     return (
         <div>
-            <textarea
+            <input
             maxLength={characterLimit}
             id="inputTodo" 
             onChange={props.inputHandler} 

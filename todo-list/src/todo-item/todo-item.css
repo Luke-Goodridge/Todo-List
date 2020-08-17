@@ -1,0 +1,14 @@
+.todo {
+    display: flex;
+    flex-direction: row;
+    width: 300px;
+    position: relative;
+}
+
+.test {
+    height: 20px;
+    width: auto;
+    cursor: pointer;
+    position: absolute;
+    right: 0;
+}
