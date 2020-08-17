@@ -12,3 +12,9 @@
     position: absolute;
     right: 0;
 }
+
+p {
+    overflow-wrap: break-word;
+    background-color: sandybrown;
+    width: 100%;
+}
