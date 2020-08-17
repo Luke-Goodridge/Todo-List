@@ -4,7 +4,7 @@ const TodoItem = (props) => {
     return (
         <div className="todo">
             <p>{props.content}</p>
-            <button>Remove</button>
+            <button onClick={props.remove}>Remove</button>
         </div>
     );
 }
