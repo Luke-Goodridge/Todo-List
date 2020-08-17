@@ -4,7 +4,7 @@ import AddTodoButton from "../todo-add/todo-add";
 
 const TodoContainer = () => {
     const [todoList, updateTodo] = useState([]);
-    const [todoInput, updateInput] = useState();
+    const [todoInput, updateInputTodo] = useState();
 
     const makeNewTodo = (newTodo) => {
         //checks the todo inputted to ensure its not "nothing"
@@ -19,6 +19,8 @@ const TodoContainer = () => {
         }
         //reset the input after a todo is added 
         document.getElementById("inputTodo").value = "";
+        //update the input state
+        updateInputTodo();
     }
 
     const removeTodo = (index) => {
@@ -28,7 +30,7 @@ const TodoContainer = () => {
     }
 
     const TodoInputHandler = (e) => {
-        updateInput(e.target.value);
+        updateInputTodo(e.target.value);
     }
 
     //Method to listen for the enter key, if its pressed the todo is added
