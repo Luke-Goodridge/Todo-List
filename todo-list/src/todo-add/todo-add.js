@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, Fragment } from 'react';
 import "./todo-add.css";
 
 const characterLimit = 280;
@@ -21,9 +21,9 @@ const AddTodo = (props) => {
         <button onClick={() => toggleInput(true)}>Add Todo BTN</button>
     )
     return (
-        <div>
+        <Fragment>
             {showInput ? todoInput : todoShowInput}
-        </div>
+        </Fragment>
     );
 }
 
