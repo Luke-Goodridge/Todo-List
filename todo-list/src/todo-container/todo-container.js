@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Todo from "../todo-item/todo-item";
 import AddTodoButton from "../todo-add/todo-add";
-import "./todo-container.css";
+import styles from "./todo-container.module.css";
 
 const TodoContainer = () => {
     let defaultTodos = [
@@ -51,7 +51,7 @@ const TodoContainer = () => {
     }
 
     return (
-        <div className="todo-container">
+        <div className={styles.container}>
             {todoList.map((todo,index) => {
                 return (
                 <Todo 

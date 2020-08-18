@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import "./todo-item.css";
+import styles from "./todo-item.module.css";
 
 const TodoItem = (props) => {
     const [showDelete, toggleDelete] = useState(false);
@@ -10,9 +10,9 @@ const TodoItem = (props) => {
         toggleDelete(false);
     }
     return (
-        <div className="todo" onMouseEnter={show} onMouseLeave={hide}>
-            <p>{props.content}</p>
-            {showDelete ? <button className="deleteBtn" onClick={props.remove}>Delete</button>: null}
+        <div className={styles.todo} onMouseEnter={show} onMouseLeave={hide}>
+            <p className={styles.content}>{props.content}</p>
+            {showDelete ? <button className={styles.delete} onClick={props.remove}>Delete</button>: null}
         </div>
     );
 }

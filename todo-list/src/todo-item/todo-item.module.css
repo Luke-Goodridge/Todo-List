@@ -1,20 +1,22 @@
 .todo {
     display: flex;
     flex-direction: row;
-    width: 40%;
     position: relative;
+    width: 50%;
+    min-width: 220px;
 }
 
-.deleteBtn {
+.delete {
     height: 18px;
     cursor: pointer;
     position: absolute;
-    right: 0;
+    right: -55px;
     margin-top: 16px;
 }
 
-p {
+.content {
     overflow-wrap: break-word;
     background-color: sandybrown;
     width: 100%;
+    transition: .2s;
 }

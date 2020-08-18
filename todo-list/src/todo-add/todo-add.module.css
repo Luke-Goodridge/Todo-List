@@ -6,7 +6,8 @@
 .todoInput {
     display: flex;
     flex-direction: column;
-    width: 40%;
+    width: 50%;
+    min-width: 220px;
 }
 
 .todoInput textarea {
