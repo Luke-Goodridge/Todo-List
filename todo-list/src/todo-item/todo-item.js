@@ -12,7 +12,7 @@ const TodoItem = (props) => {
     return (
         <div className="todo" onMouseEnter={show} onMouseLeave={hide}>
             <p>{props.content}</p>
-            {showDelete ? <button className="test" onClick={props.remove}>Delete</button>: null}
+            {showDelete ? <button className="deleteBtn" onClick={props.remove}>Delete</button>: null}
         </div>
     );
 }

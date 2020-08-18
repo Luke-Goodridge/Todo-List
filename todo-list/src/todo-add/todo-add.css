@@ -1,0 +1,8 @@
+#addTodoBtn {
+    display: block;
+}
+
+.todoInput {
+    display: flex;
+    flex-direction: column;
+}

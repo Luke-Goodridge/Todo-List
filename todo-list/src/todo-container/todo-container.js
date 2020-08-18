@@ -1,9 +1,14 @@
 import React, { useState } from 'react';
 import Todo from "../todo-item/todo-item";
 import AddTodoButton from "../todo-add/todo-add";
+import "./todo-container.css";
 
 const TodoContainer = () => {
-    const [todoList, updateTodo] = useState([]);
+    let defaultTodos = [
+        "Sort out files",
+        "Learn React Hooks",
+        "Buy cinema tickets"];
+    const [todoList, updateTodo] = useState(defaultTodos);
     const [todoInput, updateInputTodo] = useState();
 
     const makeNewTodo = (newTodo) => {
@@ -40,6 +45,8 @@ const TodoContainer = () => {
                 makeNewTodo(e.target.value);
             }
             else alert("No value entered");
+            //stop the default behaviour of enter
+            e.preventDefault();
         }
     }
 

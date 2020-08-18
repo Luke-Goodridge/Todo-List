@@ -1,16 +1,28 @@
-import React from 'react';
+import React, { useState } from 'react';
+import "./todo-add.css";
 
 const characterLimit = 280;
 
 const AddTodo = (props) => {
-    return (
-        <div>
-            <input
+    const [showInput, toggleInput] = useState(false);
+
+    const todoInput = (
+        <div className="todoInput">
+            <textarea
             maxLength={characterLimit}
             id="inputTodo" 
             onChange={props.inputHandler} 
             onKeyPress={props.return}/>
-            <button onClick={props.addTodo}>Add new item</button>
+            <button id="addTodoBtn" onClick={props.addTodo}>Add new item</button>
+        </div>
+    );
+
+    const todoShowInput = (
+        <button onClick={() => toggleInput(true)}>Add Todo BTN</button>
+    )
+    return (
+        <div>
+            {showInput ? todoInput : todoShowInput}
         </div>
     );
 }
