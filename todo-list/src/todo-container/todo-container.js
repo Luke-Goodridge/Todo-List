@@ -56,7 +56,7 @@ const TodoContainer = () => {
                 return (
                 <Todo 
                 key={index} 
-                content={(index+1) + ". " + todo} 
+                content={todo} 
                 remove={removeTodo.bind(this,index)}/>
                 )
             })}

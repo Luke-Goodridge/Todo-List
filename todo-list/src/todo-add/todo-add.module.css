@@ -1,18 +1,21 @@
-#addTodoBtn {
+#addBtn {
     display: block;
     margin: .5rem 0;
 }
 
-.todoInput {
+.input {
     display: flex;
     flex-direction: column;
-    width: 50%;
+    width: 70%;
     min-width: 220px;
 }
 
-.todoInput textarea {
+textarea {
     height: 100px;
     resize: none;
     font-family: Arial, Helvetica, sans-serif;
     padding: .5rem;
+    outline: none;
+    border: none;
+    border-radius: 5px;
 }
