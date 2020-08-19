@@ -13,9 +13,15 @@ const TodoItem = (props) => {
         toggleButtons(false);
     }
     //Toggling the tick    
-    const setTodo = () => {
+    const toggleTodo = () => {
         completeTodo(!todoComplete);
     }
+    const checkTodoState = () => {
+        if(todoComplete) return "☑";
+        else return "☐";
+    }
+
+    let sprite = checkTodoState();
     //return the component
     return (
         <div className={styles.todo} onMouseOver={show} onMouseLeave={hide}>
@@ -25,7 +31,7 @@ const TodoItem = (props) => {
                 <button className={styles.delete} onClick={props.remove}>X</button>
                 <button className={styles.edit}>edit</button>
             </Fragment> : null}
-            <button className={styles.done} onClick={setTodo}>{todoComplete.toString()}</button>
+            <button className={styles.done} onClick={toggleTodo}>{sprite}</button>
         </div>
     );
 }
