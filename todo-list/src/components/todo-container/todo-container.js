@@ -4,10 +4,19 @@ import EnterNewTodo from "../todo-new/todo-new";
 import styles from "./todo-container.module.css";
 
 const TodoContainer = () => {
+    var ID = function () {
+        // Math.random should be unique because of its seeding algorithm.
+        // Convert it to base 36 (numbers + letters), and grab the first 9 characters
+        // after the decimal.
+        return '_' + Math.random().toString(36).substr(2, 9);
+    };
+    //setup default values for the todo
     let defaultTodos = [
-        "Sort out files",
-        "Learn React Hooks",
-        "Buy cinema tickets"];
+        {text: "Learn react hooks", ID: ID()},
+        {text: "Watch a series on Netflix", ID: ID()},
+        {text: "Import SASS into my project", ID: ID()}];
+
+    //States
     const [todoList, updateTodo] = useState(defaultTodos);
     const [todoInput, updateInputTodo] = useState();
 
@@ -19,7 +28,7 @@ const TodoContainer = () => {
         //Else we add the todo to the todolist state.
         else {
             const newtodoList = [...todoList];
-            newtodoList.push(newTodo);
+            newtodoList.push({text: newTodo, ID: ID(), completed: false});
             updateTodo(newtodoList);
         }
         //reset the input after a todo is added 
@@ -54,8 +63,8 @@ const TodoContainer = () => {
             {todoList.map((todo,index) => {
                 return (
                 <Todo 
-                key={index} 
-                content={todo} 
+                key={todo.ID} 
+                content={todo.text}
                 remove={removeTodo.bind(this,index)}/>
                 )
             })}

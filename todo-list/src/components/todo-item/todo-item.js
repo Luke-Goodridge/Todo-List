@@ -13,10 +13,12 @@ const TodoItem = (props) => {
         toggleButtons(false);
     }
     //Toggling the tick    
-    const setTodo = () => completeTodo(!todoComplete)
+    const setTodo = () => {
+        completeTodo(!todoComplete);
+    }
     //return the component
     return (
-        <div className={styles.todo} onMouseEnter={show} onMouseLeave={hide}>
+        <div className={styles.todo} onMouseOver={show} onMouseLeave={hide}>
             <p className={styles.content}>{props.content}</p>
             {buttonsShown ?         
             <Fragment>
