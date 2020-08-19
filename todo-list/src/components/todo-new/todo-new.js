@@ -1,9 +1,9 @@
 import React, { useState, Fragment } from 'react';
-import styles from "./todo-add.module.css";
+import styles from "./todo-new.module.css";
 
 const characterLimit = 280;
 
-const AddTodo = (props) => {
+const NewTodo = (props) => {
     const [showInput, toggleInput] = useState(false);
     const todoInput = (
         <div className={styles.input}>
@@ -29,4 +29,4 @@ const AddTodo = (props) => {
 
 
 
-export default AddTodo;
+export default NewTodo;

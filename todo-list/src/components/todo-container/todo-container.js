@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import Todo from "../todo-item/todo-item";
-import AddTodoButton from "../todo-add/todo-add";
+import EnterNewTodo from "../todo-new/todo-new";
 import styles from "./todo-container.module.css";
 
 const TodoContainer = () => {
@@ -59,7 +59,7 @@ const TodoContainer = () => {
                 remove={removeTodo.bind(this,index)}/>
                 )
             })}
-            <AddTodoButton 
+            <EnterNewTodo 
             addTodo={makeNewTodo.bind(this,todoInput)}
             inputHandler={TodoInputHandler}
             return={listenForEnterKey}/>
@@ -67,7 +67,5 @@ const TodoContainer = () => {
     );
 
 }
-
-
 
 export default TodoContainer;
