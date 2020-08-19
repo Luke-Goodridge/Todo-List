@@ -5,7 +5,6 @@ const characterLimit = 280;
 
 const AddTodo = (props) => {
     const [showInput, toggleInput] = useState(false);
-
     const todoInput = (
         <div className={styles.input}>
             <textarea

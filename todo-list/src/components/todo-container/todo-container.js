@@ -49,7 +49,6 @@ const TodoContainer = () => {
             e.preventDefault();
         }
     }
-
     return (
         <div className={styles.container}>
             {todoList.map((todo,index) => {

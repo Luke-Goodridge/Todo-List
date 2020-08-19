@@ -3,6 +3,7 @@ import styles from "./todo-item.module.css";
 
 const TodoItem = (props) => {
     const [buttonsShown, toggleButtons] = useState(false);
+    const [todoComplete, completeTodo] = useState(false);
 
     //functions for toggling the buttons
     const show = () =>{
@@ -11,6 +12,8 @@ const TodoItem = (props) => {
     const hide = () =>{
         toggleButtons(false);
     }
+    //Toggling the tick    
+    const setTodo = () => completeTodo(!todoComplete)
     //return the component
     return (
         <div className={styles.todo} onMouseEnter={show} onMouseLeave={hide}>
@@ -20,7 +23,7 @@ const TodoItem = (props) => {
                 <button className={styles.delete} onClick={props.remove}>X</button>
                 <button className={styles.edit}>edit</button>
             </Fragment> : null}
-            <button className={styles.done}>X</button>
+            <button className={styles.done} onClick={setTodo}>{todoComplete.toString()}</button>
         </div>
     );
 }
