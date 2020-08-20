@@ -33,6 +33,10 @@ const TodoContainer = () => {
         if(newTodo == null){
             alert("No value entered");            
         }
+        //check if the todo already exists
+        if(todoList.some(todo => todo.text.toLowerCase() === newTodo.toLowerCase())){
+            alert("You have already added that!");  
+        }
         //Else we add the todo to the todolist state.
         else {
             const newtodoList = [...todoList];
@@ -43,7 +47,7 @@ const TodoContainer = () => {
         }
         //reset the input after a todo is added 
         document.getElementById("inputTodo").value = "";
-        //update the input state
+        //update the input state to be blank by not passing a value
         updateInputTodo();
     }
 
