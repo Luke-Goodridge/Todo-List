@@ -2,9 +2,22 @@ import React, { useState, Fragment } from 'react';
 import styles from "./todo-item.module.css";
 
 const TodoItem = (props) => {
+    const readLocalStorage = () => {
+        
+        if(localStorage.getItem(props.content) != null){
+            //we have to convert the json storage back to a bool
+            const isDone = JSON.parse(localStorage.getItem(props.content));
+            //if its true, we will want to update the completed todos
+            //TODO
+            return isDone;
+        }
+        else return false;
+    }
+
+    //states
     const [buttonsShown, toggleButtons] = useState(false);
-    const [todoComplete, completeTodo] = useState(false);
-    
+    const [todoComplete, completeTodo] = useState(readLocalStorage());
+
     //functions for toggling the buttons
     const show = () =>{
         toggleButtons(true);
@@ -14,14 +27,18 @@ const TodoItem = (props) => {
     }
     //Toggling the tick    
     const toggleTodo = () => {
+        let status = null;
         if(todoComplete) {
-            props.complete(false);
-            completeTodo(false);
+            status = false;
+            props.complete(status);
+            completeTodo(status);
         }
         else {
-            props.complete(true);
-            completeTodo(true);
+            status = true;
+            props.complete(status);
+            completeTodo(status);    
         }
+        localStorage.setItem(props.content,status);
     }
     const checkTodoState = () => {
         if(todoComplete) return "☑";

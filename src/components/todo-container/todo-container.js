@@ -80,9 +80,11 @@ const TodoContainer = () => {
             {todoList.map((todo,index) => {
                 return (
                 <Todo 
-                key={todo.ID} 
+                key={todo.ID}
+                ID={todo.ID}
                 content={todo.text}
                 complete={todoDone}
+                totalCompleted={updateCompletedTodos}
                 remove={removeTodo.bind(this,index)}/>
                 )
             })}
