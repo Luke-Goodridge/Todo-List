@@ -14,11 +14,14 @@ const TodoContainer = () => {
     let defaultTodos = [
         {text: "Learn react hooks", ID: ID()},
         {text: "Watch a series on Netflix", ID: ID()},
-        {text: "Import SASS into my project", ID: ID()}];
+        {text: "Import SASS into my project", ID: ID()},
+        {text: "Add completed todos to the App", ID: ID()},
+    ];
 
     //States
     const [todoList, updateTodo] = useState(defaultTodos);
     const [todoInput, updateInputTodo] = useState();
+    const [completedTodos, updateCompletedTodos] = useState(0);
 
     const makeNewTodo = (newTodo) => {
         //checks the todo inputted to ensure its not "nothing"
@@ -41,6 +44,7 @@ const TodoContainer = () => {
         const newtodoList = [...todoList];
         newtodoList.splice(index,1);
         updateTodo(newtodoList);
+        todoDone(false);
     }
 
     const TodoInputHandler = (e) => {
@@ -57,14 +61,28 @@ const TodoContainer = () => {
             //stop the default behaviour of enter
             e.preventDefault();
         }
+    }   
+    const todoDone = (isDone) => {
+        //check if the todo is done, if so we increment the completed todos
+        if(isDone){
+            updateCompletedTodos(completedTodos+1)
+        }
+        //check for 0 as we dont want to go less than 0
+        //sanity check isDone to ensure its in the right state
+        else if(completedTodos > 0 & !isDone) {
+            updateCompletedTodos(completedTodos-1);
+        }
+
     }
     return (
         <div className={styles.container}>
+            <div>{"Completed todos: "+ completedTodos+ "/"+ todoList.length}</div>
             {todoList.map((todo,index) => {
                 return (
                 <Todo 
                 key={todo.ID} 
                 content={todo.text}
+                complete={todoDone}
                 remove={removeTodo.bind(this,index)}/>
                 )
             })}

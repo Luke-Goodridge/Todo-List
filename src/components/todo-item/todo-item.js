@@ -4,7 +4,7 @@ import styles from "./todo-item.module.css";
 const TodoItem = (props) => {
     const [buttonsShown, toggleButtons] = useState(false);
     const [todoComplete, completeTodo] = useState(false);
-
+    
     //functions for toggling the buttons
     const show = () =>{
         toggleButtons(true);
@@ -14,7 +14,14 @@ const TodoItem = (props) => {
     }
     //Toggling the tick    
     const toggleTodo = () => {
-        completeTodo(!todoComplete);
+        if(todoComplete) {
+            props.complete(false);
+            completeTodo(false);
+        }
+        else {
+            props.complete(true);
+            completeTodo(true);
+        }
     }
     const checkTodoState = () => {
         if(todoComplete) return "☑";
