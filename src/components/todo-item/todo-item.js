@@ -36,7 +36,7 @@ const TodoItem = (props) => {
         else {
             status = true;
             props.complete(status);
-            completeTodo(status);    
+            completeTodo(status);   
         }
         localStorage.setItem(props.content,status);
     }
@@ -49,7 +49,7 @@ const TodoItem = (props) => {
     //return the component
     return (
         <div className={styles.todo} onMouseOver={show} onMouseLeave={hide}>
-            <p className={styles.content}>{props.content}</p>
+            <p className={styles.todoContent} onClick={toggleTodo}>{props.content}</p>
             {buttonsShown ?         
             <Fragment>
                 <button className={styles.delete} onClick={props.remove}>X</button>

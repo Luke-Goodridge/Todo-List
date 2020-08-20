@@ -9,7 +9,6 @@
     transition: .2s;
     cursor: pointer;
     border-radius: 5px;
-    padding: 5px;
 }
 .todo:hover {
     width: 103%;
@@ -35,6 +34,7 @@
     bottom: 0;
 }
 .done {
+    cursor: pointer;
     position: absolute;
     left: 0;
     top: 0;
@@ -45,10 +45,16 @@
     font-size: large;
 }
 
-.content {
+.todoContent {
     font-size: large;
-    margin-left: 10%;
+    margin: 0 0 0 10%;
+    padding: 10px 0;
     overflow-wrap: break-word;
     width: 80%;
     transition: .2s;
+    line-height: 50px;
+}
+.todoContent::selection {
+    background: none;
+    color: none;
 }
