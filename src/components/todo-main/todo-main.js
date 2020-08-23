@@ -23,7 +23,7 @@ const TodoContainer = () => {
         list: "todo-list",
         completed: "total-completed"
     }
-    //States
+    //Hooks
     const [todoList, updateTodo] = useState(checkLocalStorage(storage.list,defaultTodos));
     const [todoInput, updateInputTodo] = useState();
     const [completedTodos, updateCompletedTodos] = useState(checkLocalStorage(storage.completed,0));
