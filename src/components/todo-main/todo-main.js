@@ -1,8 +1,12 @@
+//react and functions
 import React, { useState } from 'react';
-import Todo from "../todo-item/todo-item";
-import EnterNewTodo from "../todo-new/todo-new";
-import styles from "./todo-main.module.css";
 import {checkLocalStorage, localStore} from "../../localStorage";
+//components
+import Todo from "../todo-item/todo-item";
+import ProgressBar from "../progress-bar/progress-bar";
+import EnterNewTodo from "../todo-new/todo-new";
+//Style modules
+import styles from "./todo-main.module.css";
 
 const TodoContainer = () => {
     var ID = function () {
@@ -27,6 +31,7 @@ const TodoContainer = () => {
     const [todoList, updateTodo] = useState(checkLocalStorage(storage.list,defaultTodos));
     const [todoInput, updateInputTodo] = useState();
     const [completedTodos, updateCompletedTodos] = useState(checkLocalStorage(storage.completed,0));
+    const [progress, updateProgress] = useState((completedTodos / todoList.length) * 100);
 
     const makeNewTodo = (newTodo) => {
         //checks the todo inputted to ensure its not "nothing"
@@ -43,12 +48,12 @@ const TodoContainer = () => {
             newtodoList.push({text: newTodo, ID: ID(), completed: false});
             updateTodo(newtodoList);
             localStore(storage.list, newtodoList);
-            // localStorage.setItem(storage.list, JSON.stringify(newtodoList));
         }
         //reset the input after a todo is added 
         document.getElementById("inputTodo").value = "";
         //update the input state to be blank by not passing a value
         updateInputTodo();
+        updateProgress((completedTodos / todoList.length) * 100);
     }
 
     const removeTodo = (index) => {
@@ -91,12 +96,14 @@ const TodoContainer = () => {
         else if(completedTodos > 0 & !isDone) {
             newTodoCount = completedTodos - 1;
             updateCompletedTodos(newTodoCount); 
-            localStore(storage.completed, newTodoCount); 
+            localStore(storage.completed, newTodoCount);
         }
+
+        updateProgress((newTodoCount / todoList.length) * 100);    
     }
     return (
         <div className={styles.container}>
-            <div>{"Completed todos: "+ completedTodos+ "/"+ todoList.length}</div>
+            <ProgressBar doneTodos={completedTodos} totalTodos={todoList.length} progress={progress}/>
             {todoList.map((todo,index) => {
                 return (
                 <Todo 

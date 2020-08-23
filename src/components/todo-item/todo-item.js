@@ -1,22 +1,11 @@
 import React, { useState, Fragment } from 'react';
 import styles from "./todo-item.module.css";
+import {checkLocalStorage} from "../../localStorage";
 
 const TodoItem = (props) => {
-    const readLocalStorage = () => {
-        
-        if(localStorage.getItem(props.content) != null){
-            //we have to convert the json storage back to a bool
-            const isDone = JSON.parse(localStorage.getItem(props.content));
-            //if its true, we will want to update the completed todos
-            //TODO
-            return isDone;
-        }
-        else return false;
-    }
-
     //states
     const [buttonsShown, toggleButtons] = useState(false);
-    const [todoComplete, completeTodo] = useState(readLocalStorage());
+    const [todoComplete, completeTodo] = useState(checkLocalStorage(props.content, false));
 
     //functions for toggling the buttons
     const show = () =>{
