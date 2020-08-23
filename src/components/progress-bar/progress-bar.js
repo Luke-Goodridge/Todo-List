@@ -3,8 +3,9 @@ import style from "./progress-bar.module.css";
 
 const ProgressBar = (props) => {
     //show this text if you havent completed
-    let todosLeftText = "- Only " + (props.totalTodos - props.doneTodos) + " tasks left.";
-    const completedText = "- Well done, you've completed all your todos!";
+    let todosLeftText = "Only " + (props.totalTodos - props.doneTodos) + " tasks left.";
+    const completedText = "Well done, you've completed all your tasks!";
+    if(props.totalTodos <= 0) todosLeftText = "Start adding some tasks!"
     //get the current state of progress
     let todoProgress = props.progress + "%";
     //styles which updates the bar's width with the state of props.progress
@@ -18,7 +19,8 @@ const ProgressBar = (props) => {
     }
     return(
         <div className={style.barContainer}>
-            <p>Progress {todoProgress === "100%" ? completedText : todosLeftText}</p>
+            {props.totalTodos <= 0 ? todosLeftText : 
+                <p>Progress - {todoProgress === "100%" ? completedText : todosLeftText}</p>}
             <div className={style.barBackground}>
                 <div style={BarStyle}></div>
             </div>

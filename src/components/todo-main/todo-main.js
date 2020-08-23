@@ -28,9 +28,9 @@ const TodoContainer = () => {
         completed: "total-completed"
     }
     //Hooks
-    const [todoList, updateTodo] = useState(checkLocalStorage(storage.list,defaultTodos));
+    const [todoList, updateTodoList] = useState(checkLocalStorage(storage.list,defaultTodos));
     const [todoInput, updateInputTodo] = useState();
-    const [completedTodos, updateCompletedTodos] = useState(checkLocalStorage(storage.completed,0));
+    const [completedTodos, updateCompletedTodos] = useState(checkLocalStorage(storage.completed,null));
     const [progress, updateProgress] = useState((completedTodos / todoList.length) * 100);
 
     const makeNewTodo = (newTodo) => {
@@ -46,26 +46,26 @@ const TodoContainer = () => {
         else {
             const newtodoList = [...todoList];
             newtodoList.push({text: newTodo, ID: ID(), completed: false});
-            updateTodo(newtodoList);
+            updateTodoList(newtodoList);
             localStore(storage.list, newtodoList);
+            updateProgress((completedTodos / newtodoList.length) * 100);
         }
         //reset the input after a todo is added 
         document.getElementById("inputTodo").value = "";
         //update the input state to be blank by not passing a value
         updateInputTodo();
-        updateProgress((completedTodos / todoList.length) * 100);
+
     }
 
     const removeTodo = (index) => {
         const text = todoList[index].text;
-        console.log(text);
         const newtodoList = [...todoList];
         newtodoList.splice(index,1);
-        updateTodo(newtodoList);
+        updateTodoList(newtodoList);
         todoDone(false);
         localStorage.removeItem(text);
         localStore(storage.list, newtodoList);
-        
+
     }
 
     const TodoInputHandler = (e) => {
@@ -98,7 +98,9 @@ const TodoContainer = () => {
             updateCompletedTodos(newTodoCount); 
             localStore(storage.completed, newTodoCount);
         }
-
+        //TODO - Figure out bug here where todolist is not the correct length after removal.
+        console.log("completed count" + newTodoCount);
+        console.log("todolist length: " + todoList.length);
         updateProgress((newTodoCount / todoList.length) * 100);    
     }
     return (
