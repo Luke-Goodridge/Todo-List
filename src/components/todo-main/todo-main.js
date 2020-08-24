@@ -17,10 +17,10 @@ const TodoContainer = () => {
     };
     //setup default values for the todo
     let defaultTodos = [
-        {text: "Learn react hooks", ID: ID()},
-        {text: "Watch a series on Netflix", ID: ID()},
-        {text: "Import SASS into my project", ID: ID()},
-        {text: "Add completed todos to the App", ID: ID()},
+        {text: "Learn react hooks", ID: ID(), completed: false},
+        {text: "Watch a series on Netflix", ID: ID(), completed: false},
+        {text: "Import SASS into my project", ID: ID(), completed: false},
+        {text: "Add completed todos to the App", ID: ID(), completed: false},
     ];
     //object to keep all variables for local storage keys
     const storage = {
@@ -31,7 +31,6 @@ const TodoContainer = () => {
     const [todoList, updateTodoList] = useState(checkLocalStorage(storage.list,defaultTodos));
     const [todoInput, updateInputTodo] = useState();
     const [completedTodos, updateCompletedTodos] = useState(checkLocalStorage(storage.completed,null));
-    const [progress, updateProgress] = useState((completedTodos / todoList.length) * 100);
 
     const makeNewTodo = (newTodo) => {
         //checks the todo inputted to ensure its not "nothing"
@@ -48,7 +47,6 @@ const TodoContainer = () => {
             newtodoList.push({text: newTodo, ID: ID(), completed: false});
             updateTodoList(newtodoList);
             localStore(storage.list, newtodoList);
-            updateProgress((completedTodos / newtodoList.length) * 100);
         }
         //reset the input after a todo is added 
         document.getElementById("inputTodo").value = "";
@@ -58,11 +56,13 @@ const TodoContainer = () => {
     }
 
     const removeTodo = (index) => {
+        //check to see if the current todo is completed, if it is...
+        //when removing we have to decrease the completed todos via toggleDone
+        if(todoList[index].completed) toggleDone(false,index);
         const text = todoList[index].text;
         const newtodoList = [...todoList];
         newtodoList.splice(index,1);
         updateTodoList(newtodoList);
-        todoDone(false);
         localStorage.removeItem(text);
         localStore(storage.list, newtodoList);
     }
@@ -82,35 +82,34 @@ const TodoContainer = () => {
             e.preventDefault();
         }
     }   
-    const todoDone = (isDone) => {
-        let newTodoCount;
-        //check if the todo is done, if so we increment the completed todos
-        if(isDone){
+    const toggleDone = (completed, todoIndex) => {
+        const newTodoList = [...todoList];
+        //toggle the completed variable on the todo
+        newTodoList[todoIndex].completed = completed;
+        updateTodoList(newTodoList);
+        let newTodoCount = completedTodos;
+        //we increment the completed todos if this todo is completed
+        if(completed){
             newTodoCount = completedTodos + 1;
-            updateCompletedTodos(newTodoCount)
-            localStore(storage.completed, newTodoCount);
         }
         //check for 0 as we dont want to go less than 0
         //sanity check isDone to ensure its in the right state
-        else if(completedTodos > 0 & !isDone) {
+        if(completedTodos > 0 & !completed) {
             newTodoCount = completedTodos - 1;
-            updateCompletedTodos(newTodoCount); 
-            localStore(storage.completed, newTodoCount);
         }
-        //TODO - Figure out bug here where todolist is not the correct length after removal.
-        console.log("completed count" + newTodoCount);
-        console.log("todolist length: " + todoList.length);
-        updateProgress((newTodoCount / todoList.length) * 100);    
+        updateCompletedTodos(newTodoCount)
+        localStore(storage.completed, newTodoCount);
     }
     return (
         <div className={styles.container}>
-            <ProgressBar doneTodos={completedTodos} totalTodos={todoList.length} progress={progress}/>
+            <ProgressBar doneTodos={completedTodos} totalTodos={todoList.length}/>
             {todoList.map((todo,index) => {
                 return (
                 <Todo 
                 key={todo.ID}
+                index={index}
                 content={todo.text}
-                complete={todoDone}
+                complete={toggleDone}
                 totalCompleted={updateCompletedTodos}
                 remove={removeTodo.bind(this,index)}/>
                 )
