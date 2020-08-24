@@ -6,7 +6,6 @@ const TodoItem = (props) => {
     //states
     const [buttonsShown, toggleButtons] = useState(false);
     const [todoComplete, completeTodo] = useState(checkLocalStorage(props.content, false));
-    let status = null;
     //functions for toggling the buttons
     const show = () =>{
         toggleButtons(true);
@@ -16,21 +15,13 @@ const TodoItem = (props) => {
     }
     //Toggling the tick    
     const toggleTodo = () => {
-        //toggle the todo to be incomplete
-        if(todoComplete) {
-            status = false;
-            props.complete(status,props.index);
-            completeTodo(status);
-        }
-        else {
-            //toggle the todo to be complete
-            status = true;
-            props.complete(status,props.index);
-            completeTodo(status);   
-        }
-        localStorage.setItem(props.content,status);
+        //Toggle using the todoComplete state.
+        props.complete(!todoComplete,props.index);
+        completeTodo(!todoComplete);
+        localStorage.setItem(props.content,!todoComplete);
     }
     const checkTodoState = () => {
+        //TODO - update these to sprites
         if(todoComplete) return "☑";
         else return "☐";
     }
