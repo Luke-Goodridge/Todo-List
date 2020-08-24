@@ -32,7 +32,7 @@ const TodoContainer = () => {
     //Hooks
     const [todoList, updateTodoList] = useState(checkLocalStorage(storage.list,defaultTodos));
     const [todoInput, updateInputTodo] = useState();
-    const [completedTodos, updateCompletedTodos] = useState(checkLocalStorage(storage.completed,null));
+    const [completedTodos, updateCompletedTodos] = useState(checkLocalStorage(storage.completed,0));
 
     const makeNewTodo = (newTodo) => {
         //checks the todo inputted to ensure its not "nothing"
