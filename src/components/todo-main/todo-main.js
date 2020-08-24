@@ -5,6 +5,8 @@ import {checkLocalStorage, localStore} from "../../localStorage";
 import Todo from "../todo-item/todo-item";
 import ProgressBar from "../progress-bar/progress-bar";
 import EnterNewTodo from "../todo-new/todo-new";
+//Test button to clear storage
+import ClearStorageBtn from "../test-clear-storage/clear-storage";
 //Style modules
 import styles from "./todo-main.module.css";
 
@@ -118,6 +120,7 @@ const TodoContainer = () => {
             addTodo={makeNewTodo.bind(this,todoInput)}
             inputHandler={TodoInputHandler}
             return={listenForEnterKey}/>
+            <ClearStorageBtn />
         </div>
     );
 
