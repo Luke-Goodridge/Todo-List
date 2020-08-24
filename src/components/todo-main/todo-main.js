@@ -65,7 +65,6 @@ const TodoContainer = () => {
         todoDone(false);
         localStorage.removeItem(text);
         localStore(storage.list, newtodoList);
-
     }
 
     const TodoInputHandler = (e) => {
