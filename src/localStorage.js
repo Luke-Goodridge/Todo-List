@@ -7,7 +7,6 @@ export const checkLocalStorage = (key,fallbackValue) => {
     else return fallbackValue;
 }
 
-
 export const localStore = (key,value) => {
     //convert the value into a string for storage
     localStorage.setItem(key, JSON.stringify(value));

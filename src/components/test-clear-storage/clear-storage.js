@@ -13,6 +13,7 @@ const btnStyle = {
 
 const clearStorage = () => {
     localStorage.clear();
+    window.location.reload();
     console.log("DEBUG: Local Storage cleared.");
 }
 const ClearStorageBtn = () => <button style={btnStyle} onClick={clearStorage}><strong>DEBUG:</strong><br/> Clear local storage</button>
