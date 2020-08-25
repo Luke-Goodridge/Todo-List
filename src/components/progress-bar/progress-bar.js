@@ -12,10 +12,10 @@ const ProgressBar = (props) => {
     if(props.totalTodos === 0) todoProgress = "0%";
     //styles which updates the bar's width with the state of props.progress
     let BarStyle = {
-        backgroundColor : "green",
+        backgroundColor : "#88BBB0",
         transition : ".5s",
         textAlign : "center",
-        borderRadius : "5rem",
+        borderRadius : ".2rem",
         width : todoProgress,
         height : "100%",
     }

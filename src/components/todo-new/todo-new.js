@@ -1,5 +1,6 @@
 import React from 'react';
 import styles from "./todo-new.module.css";
+import { FaPlus } from "react-icons/fa";
 
 const characterLimit = 280;
 
@@ -11,7 +12,7 @@ const NewTodo = (props) => {
             id="inputTodo" 
             onChange={props.inputHandler} 
             onKeyPress={props.return}/>
-            <button id={styles.addBtn} onClick={props.addTodo}>Add</button>
+            <FaPlus className={styles.addBtn} onClick={props.addTodo}/>
         </div>
     );
     return (todoInput);

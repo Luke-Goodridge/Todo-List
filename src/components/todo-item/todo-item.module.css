@@ -4,7 +4,7 @@
     position: relative;
     width: 100%;
     min-width: 220px;
-    background-color: white;
+    background-color: #4E4E5B;
     margin: 10px 0;
     transition: .2s;
     cursor: pointer;
@@ -27,32 +27,46 @@
 .delete {
     right: 0;
     top: 0;
+    bottom: 0;
+    margin: auto;
+    color: #C15D57;
+}
+.delete:hover {
+    color: #FAF9FF;
 }
 
 .edit {
     right: 0;
     bottom: 0;
 }
-.done {
+
+.done, .notDone {
     cursor: pointer;
     position: absolute;
     left: 0;
     top: 0;
-    right: 0;
     bottom: 0;
-    margin: auto 5px;
+    margin: auto .4rem;
     max-height: 40px;
-    font-size: large;
+    font-size: 1.5rem;
+}
+
+.done {
+    color: #88BBB0;
+}
+
+.notDone {
+    color: gray;
 }
 
 .todoContent {
     font-size: large;
-    margin: 0 0 0 10%;
-    padding: 10px 0;
+    margin: 0;
+    padding: 10px 10%;
     overflow-wrap: break-word;
     width: 80%;
     transition: .2s;
-    line-height: 50px;
+    line-height: 30px;
 }
 .todoContent::selection {
     background: none;

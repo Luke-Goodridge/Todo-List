@@ -1,6 +1,7 @@
 import React, { useState, Fragment } from 'react';
 import styles from "./todo-item.module.css";
 import {checkLocalStorage} from "../../localStorage";
+import {FaCheckCircle, FaCircle, FaTrash} from "react-icons/fa";
 
 const TodoItem = (props) => {
     //states
@@ -22,8 +23,8 @@ const TodoItem = (props) => {
     }
     const checkTodoState = () => {
         //TODO - update these to sprites
-        if(todoComplete) return "☑";
-        else return "☐";
+        if(todoComplete) return <FaCheckCircle className={styles.done} />;
+        else return <FaCircle className={styles.notDone} />;
     }
 
     let sprite = checkTodoState();
@@ -33,9 +34,9 @@ const TodoItem = (props) => {
             <p className={styles.todoContent} onClick={toggleTodo}>{props.content}</p>
             {buttonsShown ?         
             <Fragment>
-                <button className={styles.delete} onClick={props.remove}>X</button>
+                <FaTrash className={styles.delete} onClick={props.remove}/>
             </Fragment> : null}
-            <button className={styles.done} onClick={toggleTodo}>{sprite}</button>
+            <span onClick={toggleTodo}>{sprite}</span>
         </div>
     );
 }

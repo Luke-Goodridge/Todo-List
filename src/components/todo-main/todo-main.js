@@ -1,5 +1,5 @@
 //react and functions
-import React, { useState, Fragment } from 'react';
+import React, { useState } from 'react';
 import {checkLocalStorage, localStore} from "../../localStorage";
 //components
 import Todo from "../todo-item/todo-item";
@@ -111,7 +111,6 @@ const TodoContainer = () => {
             <ProgressBar doneTodos={completedTodos} totalTodos={todoList.length}/>
             {todoList.map((todo,index) => {
                 return (
-                <Fragment>
                     <Todo 
                     key={todo.ID}
                     index={index}
@@ -119,7 +118,6 @@ const TodoContainer = () => {
                     complete={toggleDone}
                     totalCompleted={updateCompletedTodos}
                     remove={removeTodo.bind(this,index)}/>
-                </Fragment>
                 )
             })}
             <EnterNewTodo 
@@ -127,7 +125,6 @@ const TodoContainer = () => {
             inputHandler={TodoInputHandler}
             return={listenForEnterKey}/>
             <ClearStorageBtn />
-
         </div>
     );
 

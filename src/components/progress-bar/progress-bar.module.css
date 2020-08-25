@@ -1,10 +1,8 @@
 .barBackground {
-    background-color: red;
+    background-color: #C15D57;
     width: 100%;
-    height: 7px;
-    color: white;
-    font-weight: bold;
-    border-radius: .5rem;
+    height: .7rem;
+    border-radius: .2rem;
 }
 
 .barContainer {
