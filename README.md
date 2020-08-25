@@ -8,9 +8,9 @@ You can simply clone this repo and then run NPM start to see the app on localhos
 
 Features include
 
-*Add new todo
-*Delete todo
-*Local storage of todos and progress
-*Progress bar
-*Enter key to submit a new todo, alongside the add button.
+* Add new todo
+* Delete todo
+* Local storage of todos and progress
+* Progress bar
+* Enter key to submit a new todo, alongside the add button.
 
