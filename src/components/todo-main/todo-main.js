@@ -1,5 +1,5 @@
 //react and functions
-import React, { useState } from 'react';
+import React, { useState, Fragment } from 'react';
 import {checkLocalStorage, localStore} from "../../localStorage";
 //components
 import Todo from "../todo-item/todo-item";
@@ -125,19 +125,31 @@ const TodoContainer = () => {
         setPromptType(promptTypes.ERROR);
     }
 
+    const editTest = (e,index) => {
+        console.log(e.target.value, index);
+    }
+
     return (
         <div className={styles.container}>
             <ProgressBar doneTodos={completedTodos} totalTodos={todoList.length}/>
             {todoList.map((todo,index) => {
                 return (
-                <Todo 
-                key={todo.ID}
-                index={index}
-                content={todo.text}
-                complete={toggleDone}
-                totalCompleted={updateCompletedTodos}
-                remove={removeTodo.bind(this,index)}
-                edit={showEditPrompt.bind(this, index)}/>
+                <Fragment>
+                    <Todo 
+                    key={todo.ID}
+                    index={index}
+                    content={todo.text}
+                    complete={toggleDone}
+                    totalCompleted={updateCompletedTodos}
+                    remove={removeTodo.bind(this,index)}
+                    edit={showEditPrompt.bind(this, index)}/>
+                    <Prompt 
+                    close={closePrompt}
+                    promptShown={promptShown}
+                    promptType={promptType}
+                    error={promptTypes.ERROR}
+                    change={(e) => editTest(e,todo)}/>
+                </Fragment>
                 )
             })}
             <EnterNewTodo 
@@ -145,12 +157,7 @@ const TodoContainer = () => {
             inputHandler={TodoInputHandler}
             return={listenForEnterKey}/>
             <ClearStorageBtn />
-            <Prompt 
-            close={closePrompt}
-            promptShown={promptShown}
-            promptType={promptType}
-            error={promptTypes.ERROR}
-            change={TodoInputHandler}/>
+
         </div>
     );
 
