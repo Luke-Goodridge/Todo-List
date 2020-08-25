@@ -59,11 +59,14 @@ const TodoContainer = () => {
     }
 
     const removeTodo = (index) => {
-        let confirmed = window.confirm("Are you sure you wish to delete this todo?");
-        if(!confirmed) return;
         //check to see if the current todo is completed, if it is...
         //when removing we have to decrease the completed todos via toggleDone
-        if(todoList[index].completed) toggleDone(false,index);
+        if(todoList[index].completed) {
+            //we only want to confirm them deleting if its completed
+            let confirmed = window.confirm("Are you sure you wish to delete this todo?");
+            if(!confirmed) return;
+            toggleDone(false,index);
+        }
         const text = todoList[index].text;
         const newtodoList = [...todoList];
         newtodoList.splice(index,1);
