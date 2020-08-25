@@ -34,7 +34,6 @@ const TodoItem = (props) => {
             {buttonsShown ?         
             <Fragment>
                 <button className={styles.delete} onClick={props.remove}>X</button>
-                <button className={styles.edit} onClick={props.edit}>edit</button>
             </Fragment> : null}
             <button className={styles.done} onClick={toggleTodo}>{sprite}</button>
         </div>

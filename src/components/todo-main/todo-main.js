@@ -5,7 +5,6 @@ import {checkLocalStorage, localStore} from "../../localStorage";
 import Todo from "../todo-item/todo-item";
 import ProgressBar from "../progress-bar/progress-bar";
 import EnterNewTodo from "../todo-new/todo-new";
-import Prompt from "../todo-prompt/todo-prompt";
 //Test button to clear storage
 import ClearStorageBtn from "../test-clear-storage/clear-storage";
 //Style modules
@@ -30,25 +29,20 @@ const TodoContainer = () => {
         list: "todo-list",
         completed: "total-completed"
     }
-    const promptTypes = {
-        EDIT : "edit",
-        ERROR : "error"
-    }
+
     //Hooks
     const [todoList, updateTodoList] = useState(checkLocalStorage(storage.list,defaultTodos));
     const [todoInput, updateInputTodo] = useState();
     const [completedTodos, updateCompletedTodos] = useState(checkLocalStorage(storage.completed,0));
-    const [promptType, setPromptType] = useState();
-    const [promptShown, showPrompt] = useState(false);
 
     const makeNewTodo = (newTodo) => {
         //checks the todo inputted to ensure its not "nothing"
-        if(newTodo == null || newTodo === undefined){
-            showErrorPrompt();           
+        if(newTodo == null || newTodo === undefined || newTodo.trim() === ""){
+            alert("That doesnt look like a valid task.");           
         }
         //check if the todo already exists
         else if(todoList.some(todo => todo.text.toLowerCase() === newTodo.toLowerCase())){
-            showErrorPrompt();  
+            alert("That task already exists.");  
         }
         //Else we add the todo to the todolist state.
         else {
@@ -65,6 +59,8 @@ const TodoContainer = () => {
     }
 
     const removeTodo = (index) => {
+        let confirmed = window.confirm("Are you sure you wish to delete this todo?");
+        if(!confirmed) return;
         //check to see if the current todo is completed, if it is...
         //when removing we have to decrease the completed todos via toggleDone
         if(todoList[index].completed) toggleDone(false,index);
@@ -86,7 +82,7 @@ const TodoContainer = () => {
             if(e.target.value !== ""){
                 makeNewTodo(e.target.value);
             }
-            else showErrorPrompt();
+            else alert("That doesnt look like a valid task.");
             //stop the default behaviour of enter
             e.preventDefault();
         }
@@ -109,25 +105,6 @@ const TodoContainer = () => {
         updateCompletedTodos(newTodoCount)
         localStore(storage.completed, newTodoCount);
     }
-    //prompt functions
-    const closePrompt = () => {
-        showPrompt(false);
-    }
-
-    const showEditPrompt = (index) => {
-        showPrompt(true);
-        setPromptType(promptTypes.EDIT);
-
-    }    
-
-    const showErrorPrompt = () => {
-        showPrompt(true);
-        setPromptType(promptTypes.ERROR);
-    }
-
-    const editTest = (e,index) => {
-        console.log(e.target.value, index);
-    }
 
     return (
         <div className={styles.container}>
@@ -141,14 +118,7 @@ const TodoContainer = () => {
                     content={todo.text}
                     complete={toggleDone}
                     totalCompleted={updateCompletedTodos}
-                    remove={removeTodo.bind(this,index)}
-                    edit={showEditPrompt.bind(this, index)}/>
-                    <Prompt 
-                    close={closePrompt}
-                    promptShown={promptShown}
-                    promptType={promptType}
-                    error={promptTypes.ERROR}
-                    change={(e) => editTest(e,todo)}/>
+                    remove={removeTodo.bind(this,index)}/>
                 </Fragment>
                 )
             })}
