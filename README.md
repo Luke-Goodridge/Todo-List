@@ -16,3 +16,4 @@ Features include
 * validation - Cannot enter the same todo, cannot enter a blank todo
 * Prompted to confirm if you wish to delete a Todo you have marked as "completed"
 
+Looking to make this mobile friendly in future
