@@ -1,5 +1,5 @@
 //react and functions
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {checkLocalStorage, localStore} from "../../localStorage";
 //components
 import Todo from "../todo-item/todo-item";
@@ -27,14 +27,17 @@ const TodoContainer = () => {
     //object to keep all variables for local storage keys
     const storage = {
         list: "todo-list",
-        completed: "total-completed"
+        completed: "completed-list",
     }
-
     //Hooks
     const [todoList, updateTodoList] = useState(checkLocalStorage(storage.list,defaultTodos));
     const [todoInput, updateInputTodo] = useState();
-    const [completedTodos, updateCompletedTodos] = useState(checkLocalStorage(storage.completed,0));
+    const [completedList, updateCompletedList] = useState(checkLocalStorage(storage.completed,[]));
 
+    useEffect(() => {
+        console.log("App was re-rendered");
+    }, [todoList])
+    
     const makeNewTodo = (newTodo) => {
         //checks the todo inputted to ensure its not "nothing"
         if(newTodo == null || newTodo === undefined || newTodo.trim() === ""){
@@ -55,10 +58,11 @@ const TodoContainer = () => {
         document.getElementById("inputTodo").value = "";
         //update the input state to be blank by not passing a value
         updateInputTodo();
-
     }
 
     const removeTodo = (index) => {
+        const newTodoList = [...todoList];
+        let newCompletedList = [...completedList];
         //check to see if the current todo is completed, if it is...
         //when removing we have to decrease the completed todos via toggleDone
         if(todoList[index].completed) {
@@ -66,13 +70,13 @@ const TodoContainer = () => {
             let confirmed = window.confirm("Are you sure you wish to delete this todo?");
             if(!confirmed) return;
             toggleDone(false,index);
+            newCompletedList = removeFromCompletedList(index,newTodoList);
         }
-        const text = todoList[index].text;
-        const newtodoList = [...todoList];
-        newtodoList.splice(index,1);
-        updateTodoList(newtodoList);
-        localStorage.removeItem(text);
-        localStore(storage.list, newtodoList);
+        newTodoList.splice(index,1);
+        updateCompletedList(newCompletedList);
+        updateTodoList(newTodoList);
+        localStore(storage.list, newTodoList);
+        localStore(storage.completed, newCompletedList);
     }
 
     const TodoInputHandler = (e) => {
@@ -92,27 +96,38 @@ const TodoContainer = () => {
     }   
     const toggleDone = (completed, todoIndex) => {
         const newTodoList = [...todoList];
-        //toggle the completed variable on the todo
+        let newCompletedList = [...completedList];
+        //ensures the todolist property for that item is completed (or uncompleted as !complete is ran)
         newTodoList[todoIndex].completed = completed;
+        //Update the completed todo tracking variables/states
+        if(completed){
+            newCompletedList.push(newTodoList[todoIndex])
+        }
+        else {
+            newCompletedList = removeFromCompletedList(todoIndex,newTodoList);
+        }
+        //update state and local storage
         updateTodoList(newTodoList);
         localStore(storage.list, newTodoList);
-        let newTodoCount = completedTodos;
-        //we increment the completed todos if this todo is completed
-        if(completed){
-            newTodoCount = completedTodos + 1;
-        }
-        //check for 0 as we dont want to go less than 0
-        //sanity check isDone to ensure its in the right state
-        if(completedTodos > 0 & !completed) {
-            newTodoCount = completedTodos - 1;
-        }
-        updateCompletedTodos(newTodoCount)
-        localStore(storage.completed, newTodoCount);    
+        updateCompletedList(newCompletedList);
+        localStore(storage.completed, newCompletedList);
+    }
+
+    const removeFromCompletedList = (index, mainTodoList) => {
+        const newCompletedList = [...completedList];
+        const todoID = mainTodoList[index].ID;
+        newCompletedList.forEach((item, index) => {
+            if(item.ID === todoID) {
+                newCompletedList.splice(index,1);
+            }
+        });
+        //return the new list for use
+        return newCompletedList;
     }
 
     return (
         <div className={styles.container}>
-            <ProgressBar doneTodos={completedTodos} totalTodos={todoList.length}/>
+            <ProgressBar doneTodos={completedList.length} totalTodos={todoList.length}/>
             {todoList.map((todo,index) => {
                 return (
                     <Todo 
