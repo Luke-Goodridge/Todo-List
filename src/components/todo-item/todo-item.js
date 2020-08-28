@@ -13,7 +13,7 @@ const TodoItem = (props) => {
     //Toggling the tick    
     const toggleTodo = () => {
         //use the toggle function to set the new completed value to be the opposite of what is is now.
-        props.toggle(!props.isCompleted,props.index);
+        props.toggle(!props.isCompleted,props.id);
     }
     const checkTodoState = () => {
         if(props.isCompleted) return <FaCheckCircle className={styles.done} />;

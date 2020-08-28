@@ -23,6 +23,8 @@ const TodoContainer = () => {
         {text: "Watch a series on Netflix", ID: ID(), completed: false},
         {text: "Import SASS into my project", ID: ID(), completed: false},
         {text: "Add completed todos to the App", ID: ID(), completed: false},
+        {text: "Make dinner for family", ID: ID(), completed: false},
+        {text: "Make a full stack web app", ID: ID(), completed: false},
     ];
     //object to keep all variables for local storage keys
     const storage = {
@@ -49,10 +51,10 @@ const TodoContainer = () => {
         }
         //Else we add the todo to the todolist state.
         else {
-            const newtodoList = [...todoList];
-            newtodoList.push({text: newTodo, ID: ID(), completed: false});
-            updateTodoList(newtodoList);
-            localStore(storage.list, newtodoList);
+            const newTodoList = [...todoList];
+            newTodoList.push({text: newTodo, ID: ID(), completed: false});
+            updateTodoList(newTodoList);
+            localStore(storage.list, newTodoList);
         }
         //reset the input after a todo is added 
         document.getElementById("inputTodo").value = "";
@@ -60,19 +62,21 @@ const TodoContainer = () => {
         updateInputTodo();
     }
 
-    const removeTodo = (index) => {
+    const removeTodo = (id) => {
         const newTodoList = [...todoList];
         let newCompletedList = [...completedList];
+        const todo = newTodoList.find(todo => todo.ID === id);
+        console.log(todo);
         //check to see if the current todo is completed, if it is...
         //when removing we have to decrease the completed todos via toggleDone
-        if(todoList[index].completed) {
+        if(todo.completed) {
             //we only want to confirm them deleting if its completed
             let confirmed = window.confirm("Are you sure you wish to delete this todo?");
             if(!confirmed) return;
-            toggleDone(false,index);
-            newCompletedList = removeFromCompletedList(index,newTodoList);
+            toggleDone(false,id);
+            newCompletedList = newTodoList.filter(todo => todo.completed);
         }
-        newTodoList.splice(index,1);
+        newTodoList.splice(newTodoList.indexOf(todo),1);
         updateCompletedList(newCompletedList);
         updateTodoList(newTodoList);
         localStore(storage.list, newTodoList);
@@ -94,35 +98,24 @@ const TodoContainer = () => {
             e.preventDefault();
         }
     }   
-    const toggleDone = (completed, todoIndex) => {
+    const toggleDone = (state, todo_ID) => {
         const newTodoList = [...todoList];
         let newCompletedList = [...completedList];
-        //ensures the todolist property for that item is completed (or uncompleted as !complete is ran)
-        newTodoList[todoIndex].completed = completed;
+        //find the todo via looking for the ID
+        const todo = newTodoList.find(todo => todo.ID === todo_ID);
+        todo.completed = state;
         //Update the completed todo tracking variables/states
-        if(completed){
-            newCompletedList.push(newTodoList[todoIndex])
+        if(state === true){
+            newCompletedList.push(todo)
         }
         else {
-            newCompletedList = removeFromCompletedList(todoIndex,newTodoList);
+            newCompletedList = newTodoList.filter(todo => todo.completed);
         }
         //update state and local storage
         updateTodoList(newTodoList);
         localStore(storage.list, newTodoList);
         updateCompletedList(newCompletedList);
         localStore(storage.completed, newCompletedList);
-    }
-
-    const removeFromCompletedList = (index, mainTodoList) => {
-        const newCompletedList = [...completedList];
-        const todoID = mainTodoList[index].ID;
-        newCompletedList.forEach((item, index) => {
-            if(item.ID === todoID) {
-                newCompletedList.splice(index,1);
-            }
-        });
-        //return the new list for use
-        return newCompletedList;
     }
 
     return (
@@ -132,11 +125,12 @@ const TodoContainer = () => {
                 return (
                     <Todo 
                     key={todo.ID}
+                    id={todo.ID}
                     index={index}
                     text={todo.text}
                     isCompleted={todo.completed}
                     toggle={toggleDone}
-                    remove={removeTodo.bind(this,index)}/>
+                    remove={removeTodo.bind(this,todo.ID)}/>
                 )
             })}
             <EnterNewTodo 
