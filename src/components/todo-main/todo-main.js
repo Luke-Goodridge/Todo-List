@@ -18,7 +18,7 @@ const TodoContainer = () => {
         return '_' + Math.random().toString(36).substr(2, 9);
     };
     //setup default values for the todo
-    let defaultTodos = [
+    const defaultTodos = [
         {text: "Learn react hooks", ID: ID(), completed: false},
         {text: "Watch a series on Netflix", ID: ID(), completed: false},
         {text: "Import SASS into my project", ID: ID(), completed: false},
@@ -41,6 +41,7 @@ const TodoContainer = () => {
     }, [todoList])
     
     const makeNewTodo = (newTodo) => {
+        const todoLimit = 9;
         //checks the todo inputted to ensure its not "nothing"
         if(newTodo == null || newTodo === undefined || newTodo.trim() === ""){
             alert("That doesnt look like a valid task.");           
@@ -48,6 +49,10 @@ const TodoContainer = () => {
         //check if the todo already exists
         else if(todoList.some(todo => todo.text.toLowerCase() === newTodo.toLowerCase())){
             alert("That task already exists.");  
+        }
+        //we are keeping todos a max of 9 for now.
+        else if(todoList.length >= todoLimit) {
+            alert("That's alot of tasks, try to finish and remove those first before adding more.");
         }
         //Else we add the todo to the todolist state.
         else {
@@ -121,12 +126,11 @@ const TodoContainer = () => {
     return (
         <div className={styles.container}>
             <ProgressBar doneTodos={completedList.length} totalTodos={todoList.length}/>
-            {todoList.map((todo,index) => {
+            {todoList.map((todo) => {
                 return (
                     <Todo 
                     key={todo.ID}
                     id={todo.ID}
-                    index={index}
                     text={todo.text}
                     isCompleted={todo.completed}
                     toggle={toggleDone}

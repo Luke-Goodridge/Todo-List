@@ -1,6 +1,7 @@
 import React from 'react';
 import styles from "./todo-new.module.css";
 import { FaPlus } from "react-icons/fa";
+import ReactTooltip from "react-tooltip";
 
 const characterLimit = 280;
 
@@ -12,7 +13,10 @@ const NewTodo = (props) => {
             id="inputTodo" 
             onChange={props.inputHandler} 
             onKeyPress={props.return}/>
-            <FaPlus className={styles.addBtn} onClick={props.addTodo}/>
+            <FaPlus data-tip data-for="newTodoTooltip" className={styles.addBtn} onClick={props.addTodo}/>
+            <ReactTooltip id="newTodoTooltip" type="light" place="top" effect="solid">
+                Add new todo
+            </ReactTooltip>
         </div>
     );
     return (todoInput);

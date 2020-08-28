@@ -1,3 +1,9 @@
 h1 {
     text-align: center;
+    color: #FAF9FF;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+body {
+    background-image: url("../assets/img/background.png");
 }

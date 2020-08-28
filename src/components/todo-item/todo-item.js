@@ -1,6 +1,7 @@
 import React, { useState, Fragment } from 'react';
 import styles from "./todo-item.module.css";
 import {FaCheckCircle, FaCircle, FaTrash} from "react-icons/fa";
+import ReactTooltip from "react-tooltip";
 
 const TodoItem = (props) => {
     //states
@@ -26,9 +27,13 @@ const TodoItem = (props) => {
             <p className={styles.todoContent} onClick={toggleTodo}>{props.text}</p>
             {buttonsShown ?         
             <Fragment>
-                <FaTrash className={styles.delete} onClick={props.remove}/>
+                <FaTrash data-tip data-for="deleteTooltip" className={styles.delete} onClick={props.remove}/>
+                <ReactTooltip id="deleteTooltip" type="light" place="top" effect="solid">
+                    Delete todo
+                </ReactTooltip>
             </Fragment> : null}
             <span onClick={toggleTodo}>{icon}</span>
+
         </div>
     );
 }
