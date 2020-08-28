@@ -95,6 +95,7 @@ const TodoContainer = () => {
         //toggle the completed variable on the todo
         newTodoList[todoIndex].completed = completed;
         updateTodoList(newTodoList);
+        localStore(storage.list, newTodoList);
         let newTodoCount = completedTodos;
         //we increment the completed todos if this todo is completed
         if(completed){
@@ -106,7 +107,7 @@ const TodoContainer = () => {
             newTodoCount = completedTodos - 1;
         }
         updateCompletedTodos(newTodoCount)
-        localStore(storage.completed, newTodoCount);
+        localStore(storage.completed, newTodoCount);    
     }
 
     return (
@@ -117,9 +118,9 @@ const TodoContainer = () => {
                     <Todo 
                     key={todo.ID}
                     index={index}
-                    content={todo.text}
-                    complete={toggleDone}
-                    totalCompleted={updateCompletedTodos}
+                    text={todo.text}
+                    isCompleted={todo.completed}
+                    toggle={toggleDone}
                     remove={removeTodo.bind(this,index)}/>
                 )
             })}
