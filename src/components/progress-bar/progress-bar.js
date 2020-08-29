@@ -11,20 +11,21 @@ const ProgressBar = (props) => {
     //check if the there are no Todos, we dont want to fill the bar green
     if(props.totalTodos === 0) todoProgress = "0%";
     //styles which updates the bar's width with the state of props.progress
-    let BarStyle = {
-        backgroundColor : "#88BBB0",
-        transition : ".5s",
-        textAlign : "center",
-        borderRadius : ".2rem",
-        width : todoProgress,
-        height : "100%",
-    }
+
+    let barStyles = [
+        {backgroundColor : "#88BBB0",width : "40%",zIndex : "2",}, //Done
+        {backgroundColor : "yellow",width : "80%",zIndex : "1",}, //In progress
+        {backgroundColor : "red",width : "100%",zIndex : "0",}, //incomplete
+    ];
+    
     return(
         <div className={style.barContainer}>
             {props.totalTodos <= 0 ? todosLeftText : 
                 <p>Progress - {todoProgress === "100%" ? completedText : todosLeftText}</p>}
             <div className={style.barBackground}>
-                <div style={BarStyle}></div>
+                <div className={style.bar} style={barStyles[0]}></div>
+                <div className={style.bar} style={barStyles[1]}></div>
+                <div className={style.bar} style={barStyles[2]}></div>
             </div>
         </div>
 

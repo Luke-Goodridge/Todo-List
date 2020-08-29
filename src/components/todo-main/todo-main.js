@@ -168,7 +168,7 @@ const TodoContainer = () => {
             addTodo={makeNewTodo.bind(this,todoInput)}
             inputHandler={TodoInputHandler}
             return={listenForEnterKey}/>
-            {/* <ClearStorageBtn /> */}
+            <ClearStorageBtn />
         </div>
     );
 
