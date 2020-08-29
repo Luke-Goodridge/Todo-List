@@ -15,5 +15,6 @@ Features include
 * Enter key to submit a new todo, alongside the add button.
 * validation - Cannot enter the same todo, cannot enter a blank todo
 * Prompted to confirm if you wish to delete a Todo you have marked as "completed"
+* Tooltips on the delete and add buttons
 
 Looking to make this mobile friendly in future

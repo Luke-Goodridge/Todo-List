@@ -5,6 +5,7 @@ import {checkLocalStorage, localStore} from "../../localStorage";
 import Todo from "../todo-item/todo-item";
 import ProgressBar from "../progress-bar/progress-bar";
 import EnterNewTodo from "../todo-new/todo-new";
+import TodoFilter from "../todo-filter/todo-filter";
 //Test button to clear storage
 import ClearStorageBtn from "../test-clear-storage/clear-storage";
 //Style modules
@@ -35,6 +36,8 @@ const TodoContainer = () => {
     const [todoList, updateTodoList] = useState(checkLocalStorage(storage.list,defaultTodos));
     const [todoInput, updateInputTodo] = useState();
     const [completedList, updateCompletedList] = useState(checkLocalStorage(storage.completed,[]));
+    const [filteredList, updateFilteredList] = useState(todoList);
+    const [isFiltered, filterTodos] = useState(false);
 
     useEffect(() => {
         console.log("App was re-rendered");
@@ -115,18 +118,36 @@ const TodoContainer = () => {
         }
         else {
             newCompletedList = newTodoList.filter(todo => todo.completed);
+            updateFilteredList(newCompletedList);
         }
         //update state and local storage
         updateTodoList(newTodoList);
-        localStore(storage.list, newTodoList);
         updateCompletedList(newCompletedList);
+        localStore(storage.list, newTodoList);
         localStore(storage.completed, newCompletedList);
     }
 
+    const todoFilter = (filter) => {
+        let newFilteredList = [];
+        if(!isFiltered){
+            todoList.forEach(todo => {
+                if(todo[filter] === true){
+                    newFilteredList.push(todo);
+                }
+            });
+        }   
+        else {
+            newFilteredList = [...todoList];
+        }
+        filterTodos(!isFiltered);
+        updateFilteredList(newFilteredList);
+}
+
     return (
         <div className={styles.container}>
+            <TodoFilter click={todoFilter.bind("completed")}/>
             <ProgressBar doneTodos={completedList.length} totalTodos={todoList.length}/>
-            {todoList.map((todo) => {
+            {filteredList.map((todo) => {
                 return (
                     <Todo 
                     key={todo.ID}
