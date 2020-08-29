@@ -16,5 +16,6 @@ Features include
 * validation - Cannot enter the same todo, cannot enter a blank todo
 * Prompted to confirm if you wish to delete a Todo you have marked as "completed"
 * Tooltips on the delete and add buttons
+* Filter Todos you have not completed
 
 Looking to make this mobile friendly in future
