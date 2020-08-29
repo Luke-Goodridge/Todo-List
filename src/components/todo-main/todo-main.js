@@ -33,7 +33,7 @@ const TodoContainer = () => {
         completed: "completed-list",
     }
     //Hooks
-    const [todoList, updateTodoList] = useState(checkLocalStorage(storage.list,defaultTodos));
+    const [todoList, updateMainTodos] = useState(checkLocalStorage(storage.list,defaultTodos));
     const [todoInput, updateInputTodo] = useState();
     const [completedList, updateCompletedList] = useState(checkLocalStorage(storage.completed,[]));
     const [filteredList, updateFilteredList] = useState(todoList);
@@ -59,9 +59,10 @@ const TodoContainer = () => {
         }
         //Else we add the todo to the todolist state.
         else {
-            const newTodoList = [...todoList];
+            const newTodoList = [...filteredList];
             newTodoList.push({text: newTodo, ID: ID(), completed: false});
-            updateTodoList(newTodoList);
+            updateFilteredList(newTodoList);
+            updateMainTodos(newTodoList);
             localStore(storage.list, newTodoList);
         }
         //reset the input after a todo is added 
@@ -72,9 +73,9 @@ const TodoContainer = () => {
 
     const removeTodo = (id) => {
         const newTodoList = [...todoList];
+        const newFilteredList = [...filteredList];
         let newCompletedList = [...completedList];
-        const todo = newTodoList.find(todo => todo.ID === id);
-        console.log(todo);
+        const todo = newFilteredList.find(todo => todo.ID === id);
         //check to see if the current todo is completed, if it is...
         //when removing we have to decrease the completed todos via toggleDone
         if(todo.completed) {
@@ -82,11 +83,15 @@ const TodoContainer = () => {
             let confirmed = window.confirm("Are you sure you wish to delete this todo?");
             if(!confirmed) return;
             toggleDone(false,id);
-            newCompletedList = newTodoList.filter(todo => todo.completed);
+            newCompletedList = newFilteredList.filter(todo => todo.completed);
         }
+        //we want to delete the todo from both the main and filtered todos.
         newTodoList.splice(newTodoList.indexOf(todo),1);
+        newFilteredList.splice(newFilteredList.indexOf(todo),1);
+        //update hooks and local storage
         updateCompletedList(newCompletedList);
-        updateTodoList(newTodoList);
+        updateFilteredList(newFilteredList);
+        updateMainTodos(newTodoList);
         localStore(storage.list, newTodoList);
         localStore(storage.completed, newCompletedList);
     }
@@ -108,20 +113,21 @@ const TodoContainer = () => {
     }   
     const toggleDone = (state, todo_ID) => {
         const newTodoList = [...todoList];
+        const newFilteredList = [...filteredList];
         let newCompletedList = [...completedList];
         //find the todo via looking for the ID
-        const todo = newTodoList.find(todo => todo.ID === todo_ID);
+        const todo = newFilteredList.find(todo => todo.ID === todo_ID);
         todo.completed = state;
         //Update the completed todo tracking variables/states
         if(state === true){
             newCompletedList.push(todo)
+            //we need to update the filtered list if we are currectly filtered and toggle a todo
+            if(isFiltered) updateFilteredList(newTodoList.filter(todo => !todo.completed));
         }
         else {
-            newCompletedList = newTodoList.filter(todo => todo.completed);
-            updateFilteredList(newCompletedList);
+            newCompletedList = newFilteredList.filter(todo => todo.completed);
         }
         //update state and local storage
-        updateTodoList(newTodoList);
         updateCompletedList(newCompletedList);
         localStore(storage.list, newTodoList);
         localStore(storage.completed, newCompletedList);
@@ -131,7 +137,7 @@ const TodoContainer = () => {
         let newFilteredList = [];
         if(!isFiltered){
             todoList.forEach(todo => {
-                if(todo[filter] === true){
+                if(todo[filter] === false){
                     newFilteredList.push(todo);
                 }
             });
@@ -145,7 +151,7 @@ const TodoContainer = () => {
 
     return (
         <div className={styles.container}>
-            <TodoFilter click={todoFilter.bind("completed")}/>
+            <TodoFilter click={todoFilter.bind(this, "completed")} isFiltered={isFiltered}/>
             <ProgressBar doneTodos={completedList.length} totalTodos={todoList.length}/>
             {filteredList.map((todo) => {
                 return (
@@ -162,7 +168,7 @@ const TodoContainer = () => {
             addTodo={makeNewTodo.bind(this,todoInput)}
             inputHandler={TodoInputHandler}
             return={listenForEnterKey}/>
-            <ClearStorageBtn />
+            {/* <ClearStorageBtn /> */}
         </div>
     );
 

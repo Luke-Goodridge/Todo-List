@@ -5,7 +5,7 @@ const btnStyle = {
     border : "none",
     position : "absolute",
     left: "0",
-    top : "0",
+    bottom : "-200px",
     height : "100px",
     margin : "10px",
     cursor : "pointer"
