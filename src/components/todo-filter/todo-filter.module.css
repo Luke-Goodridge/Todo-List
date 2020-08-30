@@ -1,7 +1,31 @@
 .Filter {
-    background-color: violet;
     position: absolute;
     top: 0;
     left: 0;
-    margin: .5rem;
+    margin: 1rem;
+}
+
+.FilterBtn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: none;
+    background: none;
+    color: #FAF9FF;
+    cursor: pointer;
+    line-height: 10px;
+    font-size: 1rem;
+}
+
+.FilterBtn:focus {
+    border: none;
+    outline: none;
+}
+
+.red {
+    color: #C15D57;
+}
+
+.green {
+    color: #88BBB0;
 }

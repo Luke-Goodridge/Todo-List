@@ -1,13 +1,27 @@
 import Style from "./todo-filter.module.css";
-import React from "react";
+import React, {Fragment} from "react";
+import { FaCaretRight, FaTimes } from "react-icons/fa";
+
 
 
 const TodoFilters = (props) => {
-    let filterString = "Filter by not completed";
-    if(props.isFiltered) filterString = "Un-filter todos"
+    let filterString = (
+        <Fragment>
+            <FaCaretRight className={Style.green}/>
+            Filter completed
+        </Fragment>
+    );
+    if(props.isFiltered) {
+        filterString = (
+            <Fragment>
+                <FaTimes className={Style.red}/>
+                Clear filter
+            </Fragment>
+        )
+    }
     return (
         <div className={Style.Filter}>
-            <button onClick={props.click}>{filterString}</button>
+            <button className={Style.FilterBtn} onClick={props.click}>{filterString}</button>
         </div>
     );
 }
